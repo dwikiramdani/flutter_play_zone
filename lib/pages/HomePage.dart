@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:youtube_player/youtube_player.dart';
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -20,21 +22,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   Widget getAppBar() {
     return AppBar(
         title: Text('My Play Zone'));
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  Widget getWebView(){
+    return WebView(
+      initialUrl: 'http://jakarta-tourism.go.id',
+      javascriptMode: JavascriptMode.unrestricted,
+    );
   }
 
-  Widget getWebView(){
-    return null;
+  Widget getYoutube(){
+    return YoutubePlayer(
+      context: context,
+      source: 'https://youtu.be/js1A5dPnBug',
+      quality: YoutubeQuality.MEDIUM,
+      aspectRatio: 16/9,
+      showThumbnail: true,
+    );
   }
 
   @override
@@ -53,10 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Container(
           color: Colors.cyan,
           width: double.infinity,
-          child: WebView(
-            initialUrl: 'http://jakarta-tourism.go.id',
-            javascriptMode: JavascriptMode.unrestricted,
-          ),
+          child: getYoutube()
         ),
       ),
     );
