@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player/youtube_player.dart';
 
@@ -22,45 +23,30 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Widget getAppBar() {
-    return AppBar(
-        title: Text('My Play Zone'));
-  }
+  GoogleMapController mapController;
 
-  Widget getWebView(){
-    return WebView(
-      initialUrl: 'http://jakarta-tourism.go.id',
-      javascriptMode: JavascriptMode.unrestricted,
-    );
-  }
+  final LatLng _center = const LatLng(-6.226592, 106.825298);
 
-  Widget getYoutube(){
-    return YoutubePlayer(
-      context: context,
-      source: 'https://youtu.be/js1A5dPnBug',
-      quality: YoutubeQuality.MEDIUM,
-      aspectRatio: 16/9,
-      showThumbnail: true,
-    );
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: getAppBar(),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Container(
-          color: Colors.cyan,
-          width: double.infinity,
-          child: getYoutube()
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Maps Sample App'),
+          backgroundColor: Colors.green[700],
+        ),
+        body: GoogleMap(
+          markers: Set<Marker>(
+          ),
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 21.0,
+          ),
         ),
       ),
     );
